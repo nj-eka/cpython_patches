@@ -62,7 +62,7 @@ Based on the following references:
 
     > docker build --rm -t dicpy395 .
     
-    > docker run -it --name dcpy395 -v $PWD:/opt/cpy395/patches dicpy395
+    > docker run -it --name dcpy395 -v $PWD/cpy395:/opt/cpy395/patches dicpy395
 
     ```
     root@02dfd15d5a61:/opt/cpy395# git apply patches/[patch-name].patch
