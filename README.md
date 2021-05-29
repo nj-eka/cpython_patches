@@ -20,10 +20,11 @@ Based on the following references:
     When compiling CPython or modifying the source or the standard library, this all stays within the sandbox of the source directory.*
 
 4. Compile CPython (on Linux):
-    - first need to download and install (*make* , *gcc* , *configure*, and *pkgconfig*) and some addtional dependencies:
+    - first need to download and install (*make* , *gcc* , *configure*, and *pkgconfig*) and some additional dependencies:
         - APT-based systems:
         ```
-        sudo apt install build-essential
+        # sudo apt update
+        # sudo apt install build-essential
         # sudo apt install build-dep python3.9 ->  E: Unable to locate package build-dep ...
         sudo apt-get update
         sudo apt-get build-dep python3.9 
@@ -41,7 +42,7 @@ Based on the following references:
         > ./configure --with-pydebug
     - build CPython binary by running the generated Makefile:
         > make -j -s
-    - tests:
+    - run tests:
         > ./python -m test -j
 5. Apply patches:
     > git clone https://github.com/nj-eka/cpython_patches.git patches
@@ -55,7 +56,19 @@ Based on the following references:
 
 **Docker version**
  - perform the above steps in docker:
- > docker
+    > git clone https://github.com/nj-eka/cpython_patches.git
+    
+    > cd cpython_patches
+
+    > docker build --rm -t dicpy395 .
+    
+    > docker run -it --name dcpy395 -v $PWD:/opt/cpy395/patches dicpy395
+
+    ```
+    root@02dfd15d5a61:/opt/cpy395# git apply patches/[patch-name].patch
+    root@02dfd15d5a61:/opt/cpy395# make patchcheck
+    root@02dfd15d5a61:/opt/cpy395# ./python
+    ```
  
  ___
  ## Making patch
