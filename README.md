@@ -2,7 +2,6 @@
 A series of experiments with CPython extensions for educational purposes.
 ___
 ## Preparing environment:
-___
 Based on the following references:
 - https://devguide.python.org
 - https://realpython.com/cpython-source-code-guide/
@@ -20,7 +19,7 @@ Based on the following references:
     *The CPython source directory behaves like a virtual environment.
     When compiling CPython or modifying the source or the standard library, this all stays within the sandbox of the source directory.*
 
-4. Compile CPython on Linux:
+4. Compile CPython (on Linux):
     - first need to download and install (*make* , *gcc* , *configure*, and *pkgconfig*) and some addtional dependencies:
         - APT-based systems:
         ```
