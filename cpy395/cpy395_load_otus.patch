@@ -1,0 +1,85 @@
+diff --git a/Include/opcode.h b/Include/opcode.h
+index 19944fa..a3a120c 100644
+--- a/Include/opcode.h
++++ b/Include/opcode.h
+@@ -127,6 +127,8 @@ extern "C" {
+ #define SET_UPDATE              163
+ #define DICT_MERGE              164
+ #define DICT_UPDATE             165
++#define LOAD_OTUS               166
++
+ 
+ /* EXCEPT_HANDLER is a special, implicit block type which is created when
+    entering an except handler. It is not an opcode but we define it here
+diff --git a/Lib/opcode.py b/Lib/opcode.py
+index ac1aa53..b6b8745 100644
+--- a/Lib/opcode.py
++++ b/Lib/opcode.py
+@@ -214,4 +214,6 @@ def_op('SET_UPDATE', 163)
+ def_op('DICT_MERGE', 164)
+ def_op('DICT_UPDATE', 165)
+ 
++def_op('LOAD_OTUS', 166)
++
+ del def_op, name_op, jrel_op, jabs_op
+diff --git a/Python/ceval.c b/Python/ceval.c
+index 91e879e..60cc3fc 100644
+--- a/Python/ceval.c
++++ b/Python/ceval.c
+@@ -1492,6 +1492,24 @@ main_loop:
+             FAST_DISPATCH();
+         }
+ 
++        case TARGET(LOAD_OTUS): {
++            PyObject *value = GETLOCAL(0);
++            if (value != NULL) {
++                Py_INCREF(value);
++                PUSH(value);
++
++                PyObject *value = GETITEM(consts, oparg);
++                Py_INCREF(value);
++                PUSH(value);
++
++                FAST_DISPATCH();
++            }
++            format_exc_check_arg(tstate, PyExc_UnboundLocalError,
++                                    UNBOUNDLOCAL_ERROR_MSG,
++                                    PyTuple_GetItem(co->co_varnames, oparg));
++            goto error;
++        }       
++
+         case TARGET(STORE_FAST): {
+             PREDICTED(STORE_FAST);
+             PyObject *value = POP();
+diff --git a/Python/opcode_targets.h b/Python/opcode_targets.h
+index 538fdbe..437143f 100644
+--- a/Python/opcode_targets.h
++++ b/Python/opcode_targets.h
+@@ -165,7 +165,7 @@ static void *opcode_targets[256] = {
+     &&TARGET_SET_UPDATE,
+     &&TARGET_DICT_MERGE,
+     &&TARGET_DICT_UPDATE,
+-    &&_unknown_opcode,
++    &&TARGET_LOAD_OTUS,
+     &&_unknown_opcode,
+     &&_unknown_opcode,
+     &&_unknown_opcode,
+diff --git a/Python/peephole.c b/Python/peephole.c
+index 6954c87..099b9e7 100644
+--- a/Python/peephole.c
++++ b/Python/peephole.c
+@@ -303,6 +303,14 @@ PyCode_Optimize(PyObject *code, PyObject* consts, PyObject *names,
+                 /* Skip over LOAD_CONST trueconst
+                    POP_JUMP_IF_FALSE xx.  This improves
+                    "while 1" performance.  */
++            case LOAD_FAST:
++                j = get_arg(codestr, i);               
++                if (codestr[i+3] == LOAD_CONST && j == 0) {
++                    codestr[i+3] = LOAD_OTUS;
++                    memset(codestr+i, NOP, 3);
++                }
++                break;
++
+             case LOAD_CONST:
+                 cumlc = lastlc + 1;
+                 if (nextop != POP_JUMP_IF_FALSE  ||
