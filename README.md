@@ -59,8 +59,7 @@ Based on the following references:
  > docker
  
  ___
- ## Making patches
-___
+ ## Making patch
 ## + Until
 Add new `until` statement.
 
