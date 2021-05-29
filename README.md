@@ -44,15 +44,14 @@ Based on the following references:
     - tests:
         > ./python -m test -j
 5. Apply patches:
-    - Download these patches:
-        > git clone https://github.com/nj-eka/cpython_patches.git patches
-    - Apply patch:
-        > git apply patches/[patch-name].patch
-    - Run checks and tests
-        > make patchcheck
+    > git clone https://github.com/nj-eka/cpython_patches.git patches
 
-        > ./python -m test -j
-    - Have fun using patch
+    > git apply patches/[patch-name].patch
+
+    > make patchcheck
+
+    > ./python -m test -j
+
 
 **Docker version**
  - perform the above steps in docker:
