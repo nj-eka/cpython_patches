@@ -57,8 +57,11 @@ Based on the following references and articles:
     > $ docker build --rm -t dicpy395 .
     
     > $ docker run -it --name dcpy395 -v $PWD/cpy395:/opt/cpy395/patches dicpy395
+    
     >> root@02dfd15d5a61:/opt/cpy395# git apply patches/[patch-name].patch
+
     >> root@02dfd15d5a61:/opt/cpy395# make patchcheck
+
     >> root@02dfd15d5a61:/opt/cpy395# ./python
  ___
  ## Making patch
