@@ -1,5 +1,5 @@
 # CPython internals
-Series of the experiments with CPython extensions for educational purposes.
+Series of the experiments with **CPython** extensions for educational purposes.
 ___
 ## Preparing environment:
 Based on the following references and articles:
@@ -19,14 +19,14 @@ Based on the following references and articles:
     *The CPython source directory behaves like a virtual environment.
     When compiling CPython or modifying the source or the standard library, this all stays within the sandbox of the source directory.*
 
-4. Compile CPython (on Linux):
+4. Compile **CPython** (on Linux):
     - first need to download and install (*make* , *gcc* , *configure*, and *pkgconfig*) with some additional dependencies:
-        - APT-based systems:
+        - **APT**-based systems:
         ```
         $ sudo apt-get update
         $ sudo apt-get build-dep python3.9 
         ```
-        - YUM-based:
+        - **YUM**-based:
         ```
         $ sudo yum install yum-utils
         $ sudo yum-builddep python3
@@ -34,7 +34,7 @@ Based on the following references and articles:
 
     - run configuration script, optionally enabling the debug hooks using *--with-pydebug* (and specifing install directory *--prefix=path/to/python* if needed - note: *make install* isn't used here)
         > $ ./configure [--with-pydebug]
-    - build CPython binary by running the generated Makefile:
+    - build **CPython** binary by running the generated *Makefile*:
         > $ make -j -s
     - run tests:
         > $ ./python -m test -j
@@ -64,7 +64,7 @@ Based on the following references and articles:
         ```
  ___
  ## Making patch
-## + Until
+## + **Until**
 Add new **until** statement.
 
 Steps:
@@ -107,7 +107,7 @@ Usefull links:
 - https://devguide.python.org/grammar/
 ___
 
-## + Increment / Decrement
+## + **Increment / Decrement**
 Add new `++` and `--` operators.
 
 Steps:
